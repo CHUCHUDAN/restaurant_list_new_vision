@@ -36,6 +36,9 @@
       <form class="me-2" action="/rests/{{rest._id}}/edit" style="display: inline" ;>
         <button type="submit" class="btn btn-outline-success">編輯</button>
       </form>
+      <form action="/rests/{{rest._id}}/delete" style="display: inline" ; method="POST">
+        <button type="submit" class="btn btn-outline-danger">刪除</button>
+      </form>
       <img class="rounded mx-auto d-block mb-4 w-100" src="{{rest.image}}" alt="{{rest.name}}"
         style="max-width: 600px;">
     </div>

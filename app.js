@@ -125,9 +125,13 @@ app.post('/rests/:id/edit', (req, res) => {
     .then(() => res.redirect(`/rests/${id}`))
     .catch(error => console.log(error))
 })
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.find(item => item.id.toString() === req.params.restaurant_id)
-  res.render('show', { restaurant: restaurant })
+//刪除功能
+app.post('/rests/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Rest.findById(id)
+    .then((rest) => rest.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
 app.get('/search', (req, res) => {
   if (typeArray.some(item => item.toLowerCase().includes(req.query.keyword.toLowerCase()))) {

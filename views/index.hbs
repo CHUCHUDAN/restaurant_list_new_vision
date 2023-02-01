@@ -40,13 +40,13 @@
             </div>
           </a>
           <div class="mb-2 d-flex justify-content-end">
-            <form class="me-2" action="/rests/{{this._id}}/edit" style="display: inline" ;>
+            <form class="me-2" action="/rests/{{this._id}}/edit" style="display: inline";>
               <button type="submit" class="btn btn-outline-success">編輯</button>
             </form>
-            <form class="me-2"  action="/rests/{{this._id}}" style="display: inline" ;>
+            <form class="me-2"  action="/rests/{{this._id}}" style="display: inline";>
               <button type="submit" class="btn btn-outline-info">詳細資料</button>
             </form>
-            <form action="" style="display: inline" ;>
+            <form action="/rests/{{this._id}}/delete" style="display: inline" ; method="POST">
               <button type="submit" class="btn btn-outline-danger">刪除</button>
             </form>
           </div>
