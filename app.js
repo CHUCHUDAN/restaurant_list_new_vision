@@ -51,6 +51,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const typeArray = ['中東料理', '日本料理', '義式餐廳', '美式', '酒吧', '咖啡']
 
 //設定路由
+
 //首頁render mongodb資料
 app.get('/', (req, res) => {
   Rest.find()
@@ -74,8 +75,16 @@ app.post('/rests', (req, res) => {
   const google_map = body.google_map
   const rating = body.rating
   const description = body.description
-  Rest.create({name, name_en, category, image, location, phone, google_map, rating, description})
+  return Rest.create({name, name_en, category, image, location, phone, google_map, rating, description})
     .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+//餐廳詳細資料頁面
+app.get('/rests/:id', (req, res) => {
+  const id = req.params.id
+  return Rest.findById(id)
+    .lean()
+    .then((rest) => res.render('show', { rest }))
     .catch(error => console.log(error))
 })
 app.get('/restaurants/:restaurant_id', (req, res) => {
