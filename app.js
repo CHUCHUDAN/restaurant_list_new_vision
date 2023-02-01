@@ -63,7 +63,7 @@ app.get('/', (req, res) => {
 app.get('/rests/new', (req, res) => {
   res.render('new')
 })
-//新增餐廳功能
+//新增餐廳資料功能
 app.post('/rests', (req, res) => {
   const body = req.body
   const name = body.name
@@ -85,6 +85,44 @@ app.get('/rests/:id', (req, res) => {
   return Rest.findById(id)
     .lean()
     .then((rest) => res.render('show', { rest }))
+    .catch(error => console.log(error))
+})
+
+//編輯餐廳資料頁面
+app.get('/rests/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Rest.findById(id)
+    .lean()
+    .then((rest) => res.render('edit', { rest }))
+    .catch(error => console.log(error))
+})
+//編輯餐廳資料功能
+app.post('/rests/:id/edit', (req, res) => {
+  const id = req.params.id
+  const body = req.body
+  const name = body.name
+  const name_en = body.name_en
+  const category = body.category
+  const image = body.image
+  const location = body.location
+  const phone = body.phone
+  const google_map = body.google_map
+  const rating = body.rating
+  const description = body.description
+  return Rest.findById(id)
+    .then((rest) => {
+      rest.name = name
+      rest.name_en = name_en
+      rest.category = category
+      rest.image = image
+      rest.location = location
+      rest.phone = phone
+      rest.google_map = google_map
+      rest.rating = rating
+      rest.description = description
+      return rest.save()
+    })
+    .then(() => res.redirect(`/rests/${id}`))
     .catch(error => console.log(error))
 })
 app.get('/restaurants/:restaurant_id', (req, res) => {

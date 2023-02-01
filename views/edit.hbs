@@ -1,0 +1,46 @@
+<div class="container-lg mt-5" style="height: 1000px;">
+  <div class="row justify-content-center">
+    <div class="col-sm-6 border border-2--primary pb-2">
+      <h3 class="text-center mt-2">編輯餐廳資料</h3>
+      <form action="/rests/{{rest._id}}/edit" method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label">餐廳名稱</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{rest.name}}">
+        </div>
+        <div class="mb-3">
+          <label for="name_en" class="form-label">餐廳英文名稱</label>
+          <input type="text" class="form-control" id="name_en" name="name_en" value="{{rest.name_en}}">
+        </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">餐廳種類</label>
+          <input type="text" class="form-control" id="category" name="category" value="{{rest.category}}">
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">餐廳圖片</label>
+          <input type="text" class="form-control" id="image" name="image" value="{{rest.image}}">
+        </div>
+        <div class="mb-3">
+          <label for="location" class="form-label">餐廳地址</label>
+          <input type="text" class="form-control" id="location" name="location" value="{{rest.location}}">
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">餐廳電話</label>
+          <input type="text" class="form-control" id="phone" name="phone" value="{{rest.phone}}">
+        </div>
+        <div class="mb-3">
+          <label for="google_map" class="form-label">餐廳google map</label>
+          <input type="text" class="form-control" id="google_map" name="google_map" value="{{rest.google_map}}">
+        </div>
+        <div class="mb-3">
+          <label for="rating" class="form-label">餐廳評分</label>
+          <input type="text" class="form-control" id="rating" name="rating" value="{{rest.rating}}">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">餐廳簡短描述</label>
+          <input type="text" class="form-control" id="description" name="description" value="{{rest.description}}">
+        </div>
+        <button type="submit" class="btn btn-primary">完成</button>
+      </form>
+    </div>
+  </div>
+</div>

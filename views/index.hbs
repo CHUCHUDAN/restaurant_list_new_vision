@@ -22,7 +22,7 @@
       <div class="row row-cols-sm-3">
         {{#each rests}}
         <div class="col">
-          <a href="/restaurants/{{this.id}}" class="text-secondary">
+          <a href="/rests/{{this._id}}" class="text-secondary">
             <div class="card mb-3">
               <img class="card-img-top" src={{this.image}} alt="{{this.name}}">
               <div class="card-body p-3">
@@ -39,11 +39,15 @@
               </div>
             </div>
           </a>
-          <div  class="mb-2 d-flex justify-content-end">
-            <a class="me-2" href="/">編輯</a>
-            <a class="me-2" href="/rests/{{this._id}}">詳細資料</a>
-            <form action="" style="display: inline";>
-              <button type="submit" class="btn btn-danger">刪除</button>
+          <div class="mb-2 d-flex justify-content-end">
+            <form class="me-2" action="/rests/{{this._id}}/edit" style="display: inline" ;>
+              <button type="submit" class="btn btn-outline-success">編輯</button>
+            </form>
+            <form class="me-2"  action="/rests/{{this._id}}" style="display: inline" ;>
+              <button type="submit" class="btn btn-outline-info">詳細資料</button>
+            </form>
+            <form action="" style="display: inline" ;>
+              <button type="submit" class="btn btn-outline-danger">刪除</button>
             </form>
           </div>
         </div>
