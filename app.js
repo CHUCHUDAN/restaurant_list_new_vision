@@ -17,6 +17,9 @@ const mongoose = require('mongoose')
 //引入json檔案
 const restaurantList = require('./restaurant.json')
 
+//引入body-parser
+const bodyParser = require('body-parser')
+
 //如果是非正式環境，引入dotenv
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -41,15 +44,39 @@ app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
 
+// 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
+app.use(bodyParser.urlencoded({ extended: true }))
+
 //設定種類資料
 const typeArray = ['中東料理', '日本料理', '義式餐廳', '美式', '酒吧', '咖啡']
 
 //設定路由
+//首頁render mongodb資料
 app.get('/', (req, res) => {
   Rest.find()
     .lean()
     .then(rests => res.render('index', {rests}))
     .catch(error => console.error(error))
+})
+//新增餐廳頁面
+app.get('/rests/new', (req, res) => {
+  res.render('new')
+})
+//新增餐廳功能
+app.post('/rests', (req, res) => {
+  const body = req.body
+  const name = body.name
+  const name_en = body.name_en 
+  const category = body.category
+  const image = body.image
+  const location = body.location
+  const phone = body.phone
+  const google_map = body.google_map
+  const rating = body.rating
+  const description = body.description
+  Rest.create({name, name_en, category, image, location, phone, google_map, rating, description})
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
 app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.results.find(item => item.id.toString() === req.params.restaurant_id)
