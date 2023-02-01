@@ -1,14 +1,43 @@
 //引入express框架
 const express = require('express')
 const app = express()
+
 //設定埠號
 const port = 3000
+
 //引入handlebars
 const exphbs = require('express-handlebars')
+
+//引入rest
+const Rest = require('./models/rest.js')
+
+//引入mongoose
+const mongoose = require('mongoose')
+
 //引入json檔案
 const restaurantList = require('./restaurant.json')
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
+
+//如果是非正式環境，引入dotenv
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+//運用mongoose跟mongodb連線
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
+//取得資料連線狀態
+const db = mongoose.connection
+//連線異常
+db.on('error', () => {
+  console.log('Mongodb error!')
+})
+//連線成功
+db.once('open', () => {
+  console.log('Mongodb connected!')
+})
+
+app.engine('hbs', exphbs({ defaultLayout: 'main' , extname: '.hbs'}))
+app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
 
@@ -17,8 +46,10 @@ const typeArray = ['中東料理', '日本料理', '義式餐廳', '美式', '�
 
 //設定路由
 app.get('/', (req, res) => {
-
-  res.render('index', { restaurants: restaurantList.results })
+  Rest.find()
+    .lean()
+    .then(rests => res.render('index', {rests}))
+    .catch(error => console.error(error))
 })
 app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.results.find(item => item.id.toString() === req.params.restaurant_id)
