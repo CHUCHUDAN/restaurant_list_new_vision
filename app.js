@@ -39,7 +39,7 @@ db.once('open', () => {
   console.log('Mongodb connected!')
 })
 
-app.engine('hbs', exphbs({ defaultLayout: 'main' , extname: '.hbs'}))
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
@@ -56,7 +56,7 @@ const typeArray = ['中東料理', '日本料理', '義式餐廳', '美式', '�
 app.get('/', (req, res) => {
   Rest.find()
     .lean()
-    .then(rests => res.render('index', {rests}))
+    .then(rests => res.render('index', { rests }))
     .catch(error => console.error(error))
 })
 //新增餐廳頁面
@@ -67,7 +67,7 @@ app.get('/rests/new', (req, res) => {
 app.post('/rests', (req, res) => {
   const body = req.body
   const name = body.name
-  const name_en = body.name_en 
+  const name_en = body.name_en
   const category = body.category
   const image = body.image
   const location = body.location
@@ -75,7 +75,7 @@ app.post('/rests', (req, res) => {
   const google_map = body.google_map
   const rating = body.rating
   const description = body.description
-  return Rest.create({name, name_en, category, image, location, phone, google_map, rating, description})
+  return Rest.create({ name, name_en, category, image, location, phone, google_map, rating, description })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
@@ -133,14 +133,23 @@ app.post('/rests/:id/delete', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
+
+//搜尋功能
 app.get('/search', (req, res) => {
-  if (typeArray.some(item => item.toLowerCase().includes(req.query.keyword.toLowerCase()))) {
-    const types = restaurantList.results.filter(item => item.category.toLowerCase().includes(req.query.keyword.toLowerCase()))
-    res.render('index', { restaurants: types, keyword: req.query.keyword })
-  } else {
-    const restaurantArray = restaurantList.results.filter(item => item.name.toLowerCase().includes(req.query.keyword.toLowerCase()))
-    res.render('index', { restaurants: restaurantArray, keyword: req.query.keyword })
-  }
+  const categoryArray = []
+  Rest.find()
+    .lean()
+    .then((rests) => {
+      rests.forEach(rest => categoryArray.push(rest.category))
+      if (categoryArray.some(item => item.toLowerCase().includes(req.query.keyword.toLowerCase()))) {
+        const types = rests.filter(item => item.category.toLowerCase().includes(req.query.keyword.toLowerCase()))
+        res.render('index', { rests: types, keyword: req.query.keyword })
+      } else {
+        const restaurantArray = rests.filter(item => item.name.toLowerCase().includes(req.query.keyword.toLowerCase()))
+        res.render('index', { rests: restaurantArray, keyword: req.query.keyword })
+      }
+    })
+  
 })
 //啟動並監聽伺服器
 app.listen(port, () => {
