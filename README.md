@@ -33,7 +33,7 @@ Features - 產品功能
 Environment SetUp - 環境建置。
 -----
 1. [Node.js](https://nodejs.org/en/)
-1. [MongoDB](https://www.mongodb.com/)
+2. [MongoDB](https://www.mongodb.com/)
 
 Installing - 專案安裝流程
 ----
