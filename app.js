@@ -62,8 +62,7 @@ app.get('/rests/new', (req, res) => {
 })
 //新增餐廳資料功能
 app.post('/rests', (req, res) => {
-  const body = req.body
-  const [name, name_en, category, image, location, phone, google_map, rating, description] = [body.name, body.name_en, body.category, body.image, body.location, body.phone, body.google_map, body.rating, body.description]
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
   return Rest.create({ name, name_en, category, image, location, phone, google_map, rating, description })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
@@ -88,8 +87,7 @@ app.get('/rests/:id/edit', (req, res) => {
 //編輯餐廳資料功能
 app.post('/rests/:id/edit', (req, res) => {
   const id = req.params.id
-  const body = req.body
-  const [name, name_en, category, image, location, phone, google_map, rating, description] = [body.name, body.name_en, body.category, body.image, body.location, body.phone, body.google_map, body.rating, body.description]
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
   return Rest.findById(id)
     .then((rest) => {
       [rest.name, rest.name_en, rest.category, rest.image, rest.location, rest.phone, rest.google_map, rest.rating, rest.description] = [name, name_en, category, image, location, phone, google_map, rating, description]
