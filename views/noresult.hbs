@@ -1,0 +1,26 @@
+<!-- search bar -->
+<div class="container search-bar">
+  <div class="search-bar-outer">
+    <div class="search-bar-inner">
+      <form action="/search">
+        <h4 class="mb-2">尋找餐廳：</h4>
+        <div class="input-group">
+          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+            value="{{keywords}}" aria-describedby="search-button">
+          <div class="input-group-append">
+            <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div style="width: 25rem;height: 15rem;">
+      <img src="http://5b0988e595225.cdn.sohucs.com/images/20180930/2b2f08b5c6d3470a89d0d9c1f5be3307.jpeg"
+        class="card-img-top" alt="...">
+      <h3 class="mt-2" style="font-weight: bold;">很抱歉，找不到關鍵字{{keywords}}</h3>
+    </div>
+  </div>
+</div>

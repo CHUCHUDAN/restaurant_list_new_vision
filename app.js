@@ -47,9 +47,6 @@ app.use(express.static('public'))
 // 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//設定種類資料
-const typeArray = ['中東料理', '日本料理', '義式餐廳', '美式', '酒吧', '咖啡']
-
 //設定路由
 
 //首頁render mongodb資料
@@ -66,15 +63,7 @@ app.get('/rests/new', (req, res) => {
 //新增餐廳資料功能
 app.post('/rests', (req, res) => {
   const body = req.body
-  const name = body.name
-  const name_en = body.name_en
-  const category = body.category
-  const image = body.image
-  const location = body.location
-  const phone = body.phone
-  const google_map = body.google_map
-  const rating = body.rating
-  const description = body.description
+  const [name, name_en, category, image, location, phone, google_map, rating, description] = [body.name, body.name_en, body.category, body.image, body.location, body.phone, body.google_map, body.rating, body.description]
   return Rest.create({ name, name_en, category, image, location, phone, google_map, rating, description })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
@@ -100,26 +89,10 @@ app.get('/rests/:id/edit', (req, res) => {
 app.post('/rests/:id/edit', (req, res) => {
   const id = req.params.id
   const body = req.body
-  const name = body.name
-  const name_en = body.name_en
-  const category = body.category
-  const image = body.image
-  const location = body.location
-  const phone = body.phone
-  const google_map = body.google_map
-  const rating = body.rating
-  const description = body.description
+  const [name, name_en, category, image, location, phone, google_map, rating, description] = [body.name, body.name_en, body.category, body.image, body.location, body.phone, body.google_map, body.rating, body.description]
   return Rest.findById(id)
     .then((rest) => {
-      rest.name = name
-      rest.name_en = name_en
-      rest.category = category
-      rest.image = image
-      rest.location = location
-      rest.phone = phone
-      rest.google_map = google_map
-      rest.rating = rating
-      rest.description = description
+      [rest.name, rest.name_en, rest.category, rest.image, rest.location, rest.phone, rest.google_map, rest.rating, rest.description] = [name, name_en, category, image, location, phone, google_map, rating, description]
       return rest.save()
     })
     .then(() => res.redirect(`/rests/${id}`))
@@ -136,20 +109,22 @@ app.post('/rests/:id/delete', (req, res) => {
 
 //搜尋功能
 app.get('/search', (req, res) => {
-  const categoryArray = []
   Rest.find()
     .lean()
     .then((rests) => {
-      rests.forEach(rest => categoryArray.push(rest.category))
-      if (categoryArray.some(item => item.toLowerCase().includes(req.query.keyword.toLowerCase()))) {
-        const types = rests.filter(item => item.category.toLowerCase().includes(req.query.keyword.toLowerCase()))
-        res.render('index', { rests: types, keyword: req.query.keyword })
-      } else {
-        const restaurantArray = rests.filter(item => item.name.toLowerCase().includes(req.query.keyword.toLowerCase()))
-        res.render('index', { rests: restaurantArray, keyword: req.query.keyword })
+      if (!req.query.keyword) {
+        return res.redirect('/')
+      }
+      const keywords = req.query.keyword
+      const keyword = req.query.keyword.trim().toLowerCase()
+      const searchResultArray = rests.filter(data => data.name.toLowerCase().includes(keyword) || data.category.toLowerCase().includes(keyword) || data.name_en.toLowerCase().includes(keyword))
+
+      if (searchResultArray.length === 0) {
+        return res.render('noresult', {keywords})
+      }else {
+        return res.render('index', {rests: searchResultArray, keywords})
       }
     })
-  
 })
 //啟動並監聽伺服器
 app.listen(port, () => {
