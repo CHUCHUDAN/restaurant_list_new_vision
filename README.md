@@ -60,6 +60,10 @@ Installing - 專案安裝流程
     The web is Listen on http://localhost:3000
     Mongodb connected!
     
+8.如需使用種子資料請輸入指令
+
+    在 Terminal 輸入 npm run  指令
+    
 Contributor - 專案開發人員
 -----
 [Daniel Chu](https://github.com/CHUCHUDAN)
