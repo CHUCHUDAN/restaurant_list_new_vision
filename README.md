@@ -28,9 +28,9 @@ Features - 產品功能
 
 6.使用者可以新增餐廳資料。
 
-7.使用者可透過詳細頁面連結到google-map查看餐廳位置
+7.使用者可透過詳細頁面連結到google-map查看餐廳位置。
 
-Environment SetUp - 環境建置。
+Environment SetUp - 環境建置
 -----
 1. [Node.js](https://nodejs.org/en/)
 2. [MongoDB](https://www.mongodb.com/)
