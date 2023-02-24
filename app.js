@@ -61,9 +61,31 @@ app.get('/rests/new', (req, res) => {
   res.render('new')
 })
 //新增餐廳資料功能
-app.post('/rests', (req, res) => {
+app.post('/new/restaurant', (req, res) => {
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
-  return Rest.create({ name, name_en, category, image, location, phone, google_map, rating, description })
+  Rest.create({ 
+    name: name,
+    name_en: name_en,
+    category: category, 
+    image: image,
+    location: location,
+    phone: phone,
+    google_map: google_map,
+    rating: rating,
+    description: description 
+  })
+  // const rest = Rest({
+  //   name: name,
+  //   name_en: name_en,
+  //   category: category, 
+  //   image: image,
+  //   location: location,
+  //   phone: phone,
+  //   google_map: google_map,
+  //   rating: rating,
+  //   description: description
+  // })
+  // rest.save()
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
